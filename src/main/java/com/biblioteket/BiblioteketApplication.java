@@ -1,4 +1,4 @@
-package com.biblioteket.start;
+package com.biblioteket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

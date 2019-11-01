@@ -1,4 +1,4 @@
-package com.biblioteket.start;
+package com.biblioteket;
 
 public class Hjalpklass {
 

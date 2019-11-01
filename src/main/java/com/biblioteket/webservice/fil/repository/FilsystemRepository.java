@@ -1,6 +1,5 @@
 package com.biblioteket.webservice.fil.repository;
 
-import com.biblioteket.start.Hjalpklass;
 import com.biblioteket.webservice.fil.model.Fil;
 import com.biblioteket.webservice.fil.model.FilImpl;
 import org.springframework.stereotype.Repository;
@@ -14,8 +13,8 @@ import java.util.stream.Collectors;
 @Repository
 public class FilsystemRepository implements FilRepository {
     @Override
-    public List<Fil> getListOfFiles() throws IOException {
-        return Files.list(Paths.get(Hjalpklass.BAS_REPOSITORY_PATH))
+    public List<Fil> getFilerPaSokvag(String sokvag) throws IOException {
+        return Files.list(Paths.get(sokvag))
                 .map(path -> new FilImpl(path.toFile()))
                 .collect(Collectors.toList());
     }

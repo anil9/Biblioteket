@@ -1,4 +1,4 @@
-package com.biblioteket.start;
+package com.biblioteket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

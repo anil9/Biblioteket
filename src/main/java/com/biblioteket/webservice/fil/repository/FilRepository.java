@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FilRepository {
-    List<Fil> getListOfFiles() throws IOException;
+    List<Fil> getFilerPaSokvag(String basRepositoryPath) throws IOException;
 }

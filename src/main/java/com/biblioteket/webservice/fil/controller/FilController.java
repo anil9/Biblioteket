@@ -1,7 +1,7 @@
 package com.biblioteket.webservice.fil.controller;
 
 import com.biblioteket.webservice.fil.model.Fil;
-import com.biblioteket.webservice.fil.repository.FilRepository;
+import com.biblioteket.webservice.fil.service.FilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +13,17 @@ import java.util.List;
 
 @RestController
 public class FilController {
-    private final FilRepository filRepository;
+    private final FilService filService;
 
     @Autowired
-    public FilController(FilRepository filRepository) {
-        this.filRepository = filRepository;
+    public FilController(FilService filService) {
+        this.filService = filService;
     }
 
     @GetMapping("rest/filsystem/lista")
     public ResponseEntity<List<Fil>> getListOfFiles() {
         try {
-            return ResponseEntity.ok(filRepository.getListOfFiles());
+            return ResponseEntity.ok(filService.getListOfFiles());
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
