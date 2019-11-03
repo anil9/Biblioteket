@@ -1,13 +1,16 @@
 package com.biblioteket.webservice.fil.controller;
 
 import com.biblioteket.webservice.fil.model.Fil;
+import com.biblioteket.webservice.fil.model.FilInfo;
 import com.biblioteket.webservice.fil.service.FilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class FilController {
     }
 
     @GetMapping("rest/filsystem/lista")
-    public ResponseEntity<List<Fil>> getListOfFiles() {
+    public ResponseEntity<List<FilInfo>> getListOfFiles() {
         try {
             return ResponseEntity.ok(filService.getListOfFiles());
         } catch (IOException e) {
@@ -29,4 +32,16 @@ public class FilController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping("rest/filsystem/{filnamn}")
+    public ResponseEntity<Fil> getFil(@PathVariable @NotNull String filnamn) {
+        try {
+            return ResponseEntity.ok(filService.getFil(filnamn));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
 }

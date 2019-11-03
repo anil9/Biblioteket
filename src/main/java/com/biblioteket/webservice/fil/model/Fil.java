@@ -1,11 +1,8 @@
 package com.biblioteket.webservice.fil.model;
 
-import java.nio.file.Path;
-
 public interface Fil {
-    long getSize();
+    byte[] getData();
 
-    String getName();
+    FilInfo getInfo();
 
-    Path getPath();
 }
