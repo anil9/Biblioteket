@@ -32,7 +32,7 @@ class FilControllerTest {
 
 
     @Test
-    void getListOfFiles_returnsFile() throws Exception {
+    void whenListOfFile_returnsFile() throws Exception {
         File tempFile = File.createTempFile("test", "testfile");
         tempFile.deleteOnExit();
         given(filService.getListOfFiles()).willReturn(Collections.singletonList(new FilImpl(tempFile)));
@@ -45,7 +45,7 @@ class FilControllerTest {
     }
 
     @Test
-    void getListOfFilesException_status5xx() throws Exception {
+    void whenListOfFilesException_returnStatus5xx() throws Exception {
         given(filService.getListOfFiles()).willThrow(IOException.class);
 
         mockMvc.perform(get("/rest/filsystem/lista")
