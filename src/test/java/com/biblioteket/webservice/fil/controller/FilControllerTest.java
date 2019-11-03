@@ -45,6 +45,16 @@ class FilControllerTest {
     }
 
     @Test
+    void whenEmptyList_returnsEmpty() throws Exception {
+        given(filService.getListOfFiles()).willReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/rest/filsystem/lista")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
     void whenListOfFilesException_returnStatus5xx() throws Exception {
         given(filService.getListOfFiles()).willThrow(IOException.class);
 
