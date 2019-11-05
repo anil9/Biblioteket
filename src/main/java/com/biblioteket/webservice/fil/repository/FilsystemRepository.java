@@ -30,7 +30,7 @@ public class FilsystemRepository implements FilRepository {
                 .filter(path -> path.getFileName().toString().startsWith(filnamn))
                 .findFirst();
         if (!maybePath.isPresent()) {
-            throw new FileNotFoundException();
+            throw new FileNotFoundException(String.format("Filen %s kunde inte hittas", filnamn));
         }
         return new FilImpl(maybePath.get().toFile());
     }
