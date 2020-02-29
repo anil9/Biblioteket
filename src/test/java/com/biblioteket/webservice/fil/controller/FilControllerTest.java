@@ -8,12 +8,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.biblioteket.webservice.fil.exception.ListaFilerMisslyckadesException;
 import com.biblioteket.webservice.fil.model.FilImpl;
 import com.biblioteket.webservice.fil.model.FilInfoImpl;
 import com.biblioteket.webservice.fil.service.FilService;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ class FilControllerTest {
 
     @Test
     void whenListOfFilesException_returnStatus5xx() throws Exception {
-        given(filService.listaFiler()).willThrow(IOException.class);
+        given(filService.listaFiler()).willThrow(ListaFilerMisslyckadesException.class);
 
         mockMvc.perform(get("/rest/filsystem/lista")
                 .contentType(MediaType.APPLICATION_JSON))

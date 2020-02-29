@@ -1,5 +1,7 @@
 package com.biblioteket.webservice.fil.controller;
 
+import static java.lang.String.format;
+
 import com.biblioteket.webservice.fil.model.Fil;
 import com.biblioteket.webservice.fil.model.FilInfo;
 import com.biblioteket.webservice.fil.service.FilService;
@@ -10,8 +12,6 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,25 +29,25 @@ public class FilController {
     }
 
     @GetMapping("rest/filsystem/lista")
-    public ResponseEntity<List<FilInfo>> listaFiler() {
+    public List<FilInfo> listaFiler() throws IOException {
         try {
-            return ResponseEntity.ok(filService.listaFiler());
+            return filService.listaFiler();
         } catch (IOException e) {
             logger.error("Misslyckades med att lista filer. Internal server error kastas", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            throw e;
         }
     }
 
     @GetMapping("rest/filsystem/fil/{filnamn}")
-    public ResponseEntity<Fil> getFil(@PathVariable @NotNull String filnamn) {
+    public Fil getFil(@PathVariable @NotNull String filnamn) throws IOException {
         try {
-            return ResponseEntity.ok(filService.getFil(filnamn));
+            return filService.getFil(filnamn);
         } catch (FileNotFoundException e) {
-            logger.debug(String.format("Fil med namn '%s' kunde inte hittas", filnamn), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            logger.debug(format("Fil med namn '%s' kunde inte hittas", filnamn), e);
+            throw e;
         } catch (IOException e) {
             logger.error("Problem att hämta fil med namn %s. Internal server error kastas.", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            throw e;
         }
     }
 

@@ -2,6 +2,7 @@ package com.biblioteket.webservice.fil.repository;
 
 import static java.lang.String.format;
 
+import com.biblioteket.webservice.fil.exception.ListaFilerMisslyckadesException;
 import com.biblioteket.webservice.fil.model.Fil;
 import com.biblioteket.webservice.fil.model.FilImpl;
 import com.biblioteket.webservice.fil.model.FilInfo;
@@ -19,9 +20,14 @@ public class FilsystemRepository implements FilRepository {
 
   @Override
   public List<FilInfo> getFilerPaSokvag(String sokvag) throws IOException {
-    return Files.list(Paths.get(sokvag))
-        .map(path -> new FilInfoImpl(path.toFile()))
-        .collect(Collectors.toList());
+    try {
+      return Files.list(Paths.get(sokvag))
+          .map(path -> new FilInfoImpl(path.toFile()))
+          .collect(Collectors.toList());
+    } catch (IOException e) {
+      throw new ListaFilerMisslyckadesException(
+          format("Problem att lista filer på ytan %s", sokvag), e);
+    }
   }
 
   @Override
