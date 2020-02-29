@@ -1,6 +1,6 @@
 package com.biblioteket.webservice.fil.service;
 
-import com.biblioteket.Hjalpklass;
+import com.biblioteket.Sokvag;
 import com.biblioteket.webservice.fil.model.Fil;
 import com.biblioteket.webservice.fil.model.FilInfo;
 import com.biblioteket.webservice.fil.repository.FilRepository;
@@ -18,11 +18,11 @@ public class FilServiceImpl implements FilService {
 
     @Override
     public List<FilInfo> listaFiler() throws IOException {
-        return filRepository.getFilerPaSokvag(Hjalpklass.BAS_REPOSITORY_PATH);
+        return filRepository.getFilerPaSokvag(Sokvag.BAS_REPOSITORY_PATH);
     }
 
     @Override
     public Fil getFil(String filnamn) throws IOException {
-        return filRepository.getFilPaSokvag(Hjalpklass.BAS_REPOSITORY_PATH, filnamn);
+        return filRepository.getFilPaSokvag(Sokvag.BAS_REPOSITORY_PATH, filnamn);
     }
 }
