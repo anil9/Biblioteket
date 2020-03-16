@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FilRepository {
-    List<FilInfo> getFilerPaSokvag(String basRepositoryPath) throws IOException;
+    List<FilInfo> listFiles() throws IOException;
 
-    Fil getFilPaSokvag(String folder, String filnamn) throws IOException;
+    Fil getFil(String filnamn) throws IOException;
 }

@@ -17,22 +17,27 @@ import java.util.stream.Collectors;
 
 @Repository
 public class FilsystemRepository implements FilRepository {
+    private static final String BAS_PATH = "D:\\downloads";
+
     @Override
-    public List<FilInfo> getFilerPaSokvag(String sokvag) throws IOException {
-        return Files.list(Paths.get(sokvag))
+    public List<FilInfo> listFiles() throws IOException {
+        return Files.list(Paths.get(BAS_PATH))
                 .map(path -> new FilInfoImpl(path.toFile()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Fil getFilPaSokvag(String folder, String filnamn) throws IOException {
-        Optional<Path> maybePath = Files.list(Paths.get(folder))
-                .filter(path -> path.getFileName().toString().startsWith(filnamn))
+    public Fil getFil(String filnamn) throws IOException {
+        Optional<Path> maybePath = Files.list(Paths.get(BAS_PATH))
+                .filter(path -> path.getFileName()
+                        .toString()
+                        .startsWith(filnamn))
                 .findFirst();
         if (!maybePath.isPresent()) {
             throw new FileNotFoundException(String.format("Filen %s kunde inte hittas", filnamn));
         }
-        return new FilImpl(maybePath.get().toFile());
+        return new FilImpl(maybePath.get()
+                .toFile());
     }
 
 }
