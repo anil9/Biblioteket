@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @Repository
 public class FilsystemRepository implements FilRepository {
@@ -28,15 +28,12 @@ public class FilsystemRepository implements FilRepository {
 
     @Override
     public Fil getFil(String filnamn) throws IOException {
-        Optional<Path> maybePath = Files.list(Paths.get(BAS_PATH))
+        return new FilImpl(Files.list(Paths.get(BAS_PATH))
                 .filter(path -> path.getFileName()
                         .toString()
                         .startsWith(filnamn))
-                .findFirst();
-        if (!maybePath.isPresent()) {
-            throw new FileNotFoundException(String.format("Filen %s kunde inte hittas", filnamn));
-        }
-        return new FilImpl(maybePath.get()
+                .findFirst()
+                .orElseThrow(() -> new FileNotFoundException(format("Filen %s kunde inte hittas", filnamn)))
                 .toFile());
     }
 

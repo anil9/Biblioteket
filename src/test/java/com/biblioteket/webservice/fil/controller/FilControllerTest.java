@@ -2,6 +2,7 @@ package com.biblioteket.webservice.fil.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -11,6 +12,7 @@ import com.biblioteket.webservice.fil.model.FilImpl;
 import com.biblioteket.webservice.fil.model.FilInfoImpl;
 import com.biblioteket.webservice.fil.service.FilService;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -71,8 +73,17 @@ class FilControllerTest {
         given(filService.getFil(tempFile.getName())).willReturn(new FilImpl(tempFile));
 
         mockMvc.perform(get("/rest/filsystem/fil/" + tempFile.getName())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.info.name", equalTo(tempFile.getName())));
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.info.name", equalTo(tempFile.getName())));
     }
 
+    @Test
+    void whenFileNotFoundException_returnStatus4xx() throws Exception {
+        given(filService.getFil(anyString())).willThrow(FileNotFoundException.class);
+
+        mockMvc.perform(get("/rest/filsystem/fil/namn")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().is4xxClientError());
+
+    }
 }
